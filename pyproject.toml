@@ -1,0 +1,12 @@
+[project]
+name = "project-noah"
+version = "0.1.0"
+dependencies = [
+    "fastapi[all]",
+    "sqlalchemy == 2",
+    "graphene-sqlalchemy"
+]
+
+[tool.setuptools]
+py-modules = []
+packages = ["project_noah"]
