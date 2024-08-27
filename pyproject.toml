@@ -4,8 +4,13 @@ version = "0.1.0"
 dependencies = [
     "fastapi[all]",
     "sqlalchemy == 2",
-    "graphene-sqlalchemy"
+    "graphene-sqlalchemy",
+    "psycopg2",
+    "supabase"
 ]
+
+[project.scripts]
+project-noah = "project_noah:main"
 
 [tool.setuptools]
 py-modules = []

@@ -1,39 +1,44 @@
-import uuid
-from datetime import datetime, timezone
-from typing import List, Optional
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, declared_attr, mapped_column, relationship
 
-from sqlalchemy import DateTime, ForeignKey, String, Uuid
-from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, relationship
+from project_noah.db.database import Base, Session
 
 
-class Base(DeclarativeBase):
-    __abstract__ = True
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    public_id: Mapped[Uuid] = mapped_column(server_default=lambda: uuid.uuid4())
-    created_at: Mapped[DateTime] = mapped_column(
-        server_default=lambda: datetime.now(timezone.utc)
-    )
-    updated_at: Mapped[DateTime] = mapped_column(
-        server_default=lambda: datetime.now(timezone.utc)
-    )
+class TitleMixin:
+    title: Mapped[str]
 
 
-class Campaign(Base):
-    pass
+class NotesMixin:
+    notes: Mapped[str]
 
 
-class Mission(Base):
-    pass
+class CampaignItem:
+    campaign_id = mapped_column(ForeignKey("campaigns.id"))
+
+    @declared_attr
+    def campaign(self):
+        return relationship("Campaign")
 
 
-class Scene(Base):
-    pass
+class Campaign(TitleMixin, Base):
+    __tablename__ = "campaigns"
+
+    description: Mapped[str]
 
 
-class Combat(Base):
-    pass
+class Mission(TitleMixin, NotesMixin, CampaignItem, Base):
+    __tablename__ = "missions"
 
 
-class NPC(Base):
-    pass
+class Scene(TitleMixin, NotesMixin, CampaignItem, Base):
+    __tablename__ = "scenes"
+
+
+class Combat(TitleMixin, NotesMixin, CampaignItem, Base):
+    __tablename__ = "combats"
+
+
+class NPC(NotesMixin, CampaignItem, Base):
+    __tablename__ = "npcs"
+
+    name: Mapped[str]
