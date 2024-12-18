@@ -1,0 +1,56 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Campaign {
+  id: ID!
+  title: String!
+  description: String!
+  user: User!
+}
+
+type Scene {
+  id: ID!
+  title: String!
+  description: String!
+  campaign: Campaign!
+}
+
+type NPC {
+  id: ID!
+  name: String!
+  campaign: Campaign!
+}
+
+type Combat {
+  id: ID!
+  name: String!
+  campaign: Campaign!
+}
+
+type User {
+  id: ID!
+  supabaseId: ID!
+  email: String!
+  marketingConsent: Boolean!
+}
+
+type Query {
+  campaigns: [Campaign!]!
+}
+
+input NewCampaign {
+  title: String!
+  description: String!
+}
+
+input NewUser {
+  supabaseId: String!
+  email: String!
+  marketingConsent: Boolean!
+}
+
+type Mutation {
+  createCampaign(input: NewCampaign!): Campaign!
+  createUser(input: NewUser!): User!
+}
