@@ -2,11 +2,39 @@
 
 package model
 
+import (
+	"github.com/google/uuid"
+)
+
 type Campaign struct {
-	ID          string `json:"id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	User        *User  `json:"user"`
+	ID          uuid.UUID `json:"id"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	User        *User     `json:"user"`
+	Scenes      []*Scene  `json:"scenes"`
+	Npcs        []*Npc    `json:"npcs"`
+	Combats     []*Combat `json:"combats"`
+}
+
+type Combat struct {
+	ID    uuid.UUID    `json:"id"`
+	Title string       `json:"title"`
+	Notes string       `json:"notes"`
+	Npcs  []*CombatNpc `json:"npcs"`
+}
+
+type CombatNpc struct {
+	ID             uuid.UUID        `json:"id"`
+	Npc            *Npc             `json:"npc"`
+	Notes          string           `json:"notes"`
+	CountsForThree *CombatNpcCounts `json:"countsForThree"`
+	CountsForFour  *CombatNpcCounts `json:"countsForFour"`
+	CountsForFive  *CombatNpcCounts `json:"countsForFive"`
+}
+
+type CombatNpcCounts struct {
+	Base           int32 `json:"base"`
+	Reinforcements int32 `json:"reinforcements"`
 }
 
 type Mutation struct {
@@ -23,12 +51,31 @@ type NewUser struct {
 	MarketingConsent bool   `json:"marketingConsent"`
 }
 
+type Npc struct {
+	ID          uuid.UUID `json:"id"`
+	Name        string    `json:"name"`
+	Notes       string    `json:"notes"`
+	CombatClass *NpcClass `json:"combatClass,omitempty"`
+}
+
+type NpcClass struct {
+	ID   uuid.UUID `json:"id"`
+	Name string    `json:"name"`
+	Role string    `json:"role"`
+}
+
 type Query struct {
 }
 
+type Scene struct {
+	ID    uuid.UUID `json:"id"`
+	Title string    `json:"title"`
+	Notes string    `json:"notes"`
+}
+
 type User struct {
-	ID               string `json:"id"`
-	SupabaseID       string `json:"supabaseId"`
-	Email            string `json:"email"`
-	MarketingConsent bool   `json:"marketingConsent"`
+	ID               uuid.UUID `json:"id"`
+	SupabaseID       string    `json:"supabaseId"`
+	Email            string    `json:"email"`
+	MarketingConsent bool      `json:"marketingConsent"`
 }

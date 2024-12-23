@@ -22,6 +22,9 @@ func main() {
 		port = defaultPort
 	}
 
+	// database.InitDB()
+	// defer database.CloseDB()
+	// database.Migrate()
 	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
 
 	srv.AddTransport(transport.Options{})
