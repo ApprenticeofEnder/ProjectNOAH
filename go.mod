@@ -4,6 +4,8 @@ go 1.23.4
 
 require (
 	github.com/99designs/gqlgen v0.17.60
+	github.com/go-chi/chi/v5 v5.2.0
+	github.com/rs/cors v1.11.1
 	github.com/vektah/gqlparser/v2 v2.5.20
 )
 
