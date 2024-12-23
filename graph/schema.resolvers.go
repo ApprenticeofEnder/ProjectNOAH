@@ -48,7 +48,13 @@ func (r *campaignResolver) Npcs(ctx context.Context, obj *model.Campaign) ([]*mo
 
 // Combats is the resolver for the combats field.
 func (r *campaignResolver) Combats(ctx context.Context, obj *model.Campaign) ([]*model.Combat, error) {
-	panic(fmt.Errorf("not implemented: Combats - combats"))
+	var combats []*model.Combat
+	var dummyCombat = model.Combat{
+		Title: "Combat 1",
+		Notes: "This is the first combat of the campaign.",
+	}
+	combats = append(combats, &dummyCombat)
+	return combats, nil
 }
 
 // CreateCampaign is the resolver for the createCampaign field.
