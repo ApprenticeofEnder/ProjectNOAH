@@ -1,0 +1,85 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+scalar UUID
+
+type Campaign {
+  id: UUID!
+  title: String!
+  description: String!
+  user: User!
+  scenes: [Scene!]!
+  npcs: [Npc!]!
+  combats: [Combat!]!
+}
+
+type Scene {
+  id: UUID!
+  title: String!
+  notes: String!
+}
+
+type Npc {
+  id: UUID!
+  name: String!
+  notes: String!
+  combatClass: NpcClass
+}
+
+type NpcClass {
+  id: UUID!
+  name: String!
+  role: String!
+}
+
+type Combat {
+  id: UUID!
+  title: String!
+  notes: String!
+  npcs: [CombatNpc!]!
+}
+
+type CombatNpc {
+  id: UUID!
+  npc: Npc!
+  notes: String!
+  countsForThree: CombatNpcCounts!
+  countsForFour: CombatNpcCounts!
+  countsForFive: CombatNpcCounts!
+}
+
+type CombatNpcCounts {
+  base: Int!
+  reinforcements: Int!
+}
+
+type User {
+  id: UUID!
+  supabaseId: ID!
+  email: String!
+  marketingConsent: Boolean!
+}
+
+type Query {
+  campaigns: [Campaign!]!
+  scenes(campaignId: UUID!): [Scene!]!
+  combats(campaignId: UUID!): [Combat!]!
+  npcs(campaignId: UUID!): [Npc!]!
+}
+
+input NewCampaign {
+  title: String!
+  description: String!
+}
+
+input NewUser {
+  supabaseId: String!
+  email: String!
+  marketingConsent: Boolean!
+}
+
+type Mutation {
+  createCampaign(input: NewCampaign!): Campaign!
+  createUser(input: NewUser!): User!
+}
